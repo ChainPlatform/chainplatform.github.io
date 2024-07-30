@@ -37,14 +37,13 @@
                 typeof window.ReactNativeWebView.postMessage != "undefined"
                 && typeof window.ReactNativeWebView.postMessage == "function") {
                 window.ReactNativeWebView.postMessage(JSON.stringify(e));
-
                 console.log("window.ReactNativeWebView.postMessage ", e);
-
-            } else if (typeof window.parent != "undefined") {
-                // window.parent.postMessage(JSON.stringify(e));
+            } else if (typeof window.parent != "undefined" &&
+                typeof window.parent.postMessage != "undefined") {
+                window.parent.postMessage(JSON.stringify(e));
                 console.log("window.parent.postMessage ", e);
             } else {
-                // window.postMessage(JSON.stringify(e));
+                window.postMessage(JSON.stringify(e));
                 console.log("window.postMessage ", e);
             }
         } catch (error) {
