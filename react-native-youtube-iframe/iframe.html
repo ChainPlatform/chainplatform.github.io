@@ -38,14 +38,14 @@
                 && typeof window.ReactNativeWebView.postMessage == "function") {
                 window.ReactNativeWebView.postMessage(JSON.stringify(e));
 
-                console.log("window.ReactNativeWebView.postMessage");
+                console.log("window.ReactNativeWebView.postMessage ", e);
 
             } else if (typeof window.parent != "undefined") {
                 window.parent.postMessage(JSON.stringify(e));
-                console.log("window.parent.postMessage");
+                console.log("window.parent.postMessage ", e);
             } else {
                 window.postMessage(JSON.stringify(e));
-                console.log("window.postMessage");
+                console.log("window.postMessage ", e);
             }
         } catch (error) {
             console.log("sendMessageToRN error ", error);
@@ -132,7 +132,7 @@
     }
     window.addEventListener("message", function (e) {
 
-        console.log("window.addEventListener message ", e);
+        console.log("window.addEventListener message e ", e);
 
         var { data: e } = e;
         switch (e) {
