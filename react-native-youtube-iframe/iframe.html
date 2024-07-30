@@ -130,32 +130,9 @@
                 data: Boolean(isFullScreen)
             })
     }
-    document.addEventListener("fullscreenchange", onFullScreenChange),
-        document.addEventListener("msfullscreenchange", onFullScreenChange),
-        document.addEventListener("mozfullscreenchange", onFullScreenChange),
-        document.addEventListener("webkitfullscreenchange", onFullScreenChange),
-        document.addEventListener("message", function (e) {
-
-            console.log("document.addEventListener message");
-
-            var { data: e } = e;
-            switch (e) {
-                case "playVideo":
-                    player.playVideo();
-                    break;
-                case "pauseVideo":
-                    player.pauseVideo();
-                    break;
-                case "muteVideo":
-                    player.mute();
-                    break;
-                case "unMuteVideo":
-                    player.unMute()
-            }
-        })
     window.addEventListener("message", function (e) {
 
-        console.log("window.addEventListener message");
+        console.log("window.addEventListener message ", e);
 
         var { data: e } = e;
         switch (e) {
