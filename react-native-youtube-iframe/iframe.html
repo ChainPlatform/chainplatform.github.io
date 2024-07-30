@@ -37,6 +37,8 @@
                 typeof window.ReactNativeWebView.postMessage != "undefined"
                 && typeof window.ReactNativeWebView.postMessage == "function") {
                 window.ReactNativeWebView.postMessage(JSON.stringify(e));
+            } else if (typeof window.parent != "undefined") {
+                window.parent.postMessage(JSON.stringify(e));
             } else {
                 window.postMessage(JSON.stringify(e));
             }
@@ -127,7 +129,7 @@
         document.addEventListener("msfullscreenchange", onFullScreenChange),
         document.addEventListener("mozfullscreenchange", onFullScreenChange),
         document.addEventListener("webkitfullscreenchange", onFullScreenChange),
-        window.addEventListener("message", function (e) {
+        document.addEventListener("message", function (e) {
             var { data: e } = e;
             switch (e) {
                 case "playVideo":
