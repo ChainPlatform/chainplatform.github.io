@@ -63,7 +63,7 @@
                     onPlaybackQualityChange: onPlaybackQualityChange
                 }
             });
-            iframeWindow = player.getIframe().contentWindow;
+            // iframeWindow = player.getIframe().contentWindow;
         }
         function onPlayerError(e) {
             sendMessageToParent({ eventType: "playerError", data: e.data })
