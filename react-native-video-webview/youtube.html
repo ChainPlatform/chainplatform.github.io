@@ -27,8 +27,7 @@
 <body>
     <div id="player"></div>
     <script>
-        const parsedUrl = new URL(window.location.href)
-            , videoId = parsedUrl.searchParams.get("videoId");
+        const parsedUrl = new URL(window.location.href), videoId = parsedUrl.searchParams.get("videoId");
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -47,6 +46,8 @@
                     'controls': 0,
                     'rel': 0,
                     'loop': 0,
+                    'fs': 0,
+                    'autoplay': 0
                 },
                 events: {
                     onReady: onPlayerReady,
@@ -57,16 +58,6 @@
                 }
             });
         }
-
-        // 'playsinline': 1,
-        // 'controls': 0,
-        // 'rel': 0,
-        // 'loop': 0,
-        // 'iv_load_policy': 3,
-        // 'fs': 0,
-        // 'enablejsapi': 1,
-        // 'disablekb': 1,
-        // 'autoplay': 0
 
         function onPlayerError(e) {
             sendMessageToParent({ eventType: "playerError", data: e.data })
@@ -84,11 +75,9 @@
             sendMessageToParent({ eventType: "playerStateChange", data: e.data })
         }
         function sendMessageToParent(event) {
-            console.log("sendMessageToParent ", event);
             (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
         }
         window.addEventListener("message", function (events) {
-            console.log("window.addEventListener ", events);
             let infos = events.data;
             if (typeof events.data != "object") {
                 infos = JSON.parse(events.data);
@@ -98,20 +87,10 @@
                 var time = Math.floor(infos.info.currentTime);
                 if (time !== lastTimeUpdate) {
                     lastTimeUpdate = time;
-                    // if (typeof window.parent != "undefined" && typeof window.parent.postMessage != "undefined") {
-                    // window.postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
-                    // } else {
-                    //     window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
-                    // }
                     (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }), '*');
                 }
             }
             if (infos.event === "initialDelivery" && infos.info) {
-                // if (typeof window.parent != "undefined" && typeof window.parent.postMessage != "undefined") {
-                // window.postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
-                // } else {
-                //     window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
-                // }
                 (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }), '*');
             }
             // }
