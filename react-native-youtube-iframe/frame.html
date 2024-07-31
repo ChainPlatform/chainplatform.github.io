@@ -53,13 +53,6 @@
                     onPlaybackQualityChange: onPlaybackQualityChange
                 }
             });
-            // setInterval(() => {
-            //     const data = {
-            //         currentDuration: getCurrentTime()
-            //     }
-            //         (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(data));
-            // }, 1000)
-
         }
 
         function onPlayerError(e) {
@@ -117,25 +110,25 @@
             }
         })
 
-        function pause() {
-            player.pauseVideo();
-        }
+        // function pause() {
+        //     player.pauseVideo();
+        // }
 
-        function play() {
-            player.playVideo();
-        }
+        // function play() {
+        //     player.playVideo();
+        // }
 
-        function seekTo(time) {
-            player.seekTo(time, true);
-        }
+        // function seekTo(time) {
+        //     player.seekTo(time, true);
+        // }
 
-        function getDuration() {
-            return player.getDuration()
-        }
+        // function getDuration() {
+        //     return player.getDuration()
+        // }
 
-        function getCurrentTime() {
-            return player.getCurrentTime()
-        }
+        // function getCurrentTime() {
+        //     return player.getCurrentTime()
+        // }
     </script>
 </body>
 
