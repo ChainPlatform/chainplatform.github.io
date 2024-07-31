@@ -45,8 +45,14 @@
                     'rel': 0,
                     'loop': 1,
                 },
+                events: {
+                    onReady: onPlayerReady,
+                    onError: onPlayerError,
+                    onStateChange: onPlayerStateChange,
+                    onPlaybackRateChange: onPlaybackRateChange,
+                    onPlaybackQualityChange: onPlaybackQualityChange
+                }
             });
-
             // setInterval(() => {
             //     const data = {
             //         currentDuration: getCurrentTime()
@@ -55,6 +61,61 @@
             // }, 1000)
 
         }
+
+        function onPlayerError(e) {
+            sendMessageToParent({ eventType: "playerError", data: e.data })
+        }
+        function onPlaybackRateChange(e) {
+            sendMessageToParent({ eventType: "playbackRateChange", data: e.data })
+        }
+        function onPlaybackQualityChange(e) {
+            sendMessageToParent({ eventType: "playerQualityChange", data: e.data })
+        }
+        function onPlayerReady(e) {
+            sendMessageToParent({ eventType: "playerReady", data: null })
+        }
+        function onPlayerStateChange(e) {
+            sendMessageToParent({ eventType: "playerStateChange", data: e.data })
+        }
+        function sendMessageToParent(event) {
+            (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event));
+        }
+
+        window.addEventListener("message", function (events) {
+            let infos = events.data;
+            if (typeof events.data != "object") {
+                infos = JSON.parse(events.data);
+            }
+            if (events.source === iframeWindow) {
+                if (infos.event === "infoDelivery" && infos.info && infos.info.currentTime) {
+                    var time = Math.floor(infos.info.currentTime);
+                    if (time !== lastTimeUpdate) {
+                        lastTimeUpdate = time;
+                        (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
+                    }
+                }
+                if (infos.event === "initialDelivery" && infos.info) {
+                    (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
+                }
+            }
+            switch (infos.event) {
+                case "playVideo":
+                    player.playVideo();
+                    break;
+                case "pauseVideo":
+                    player.pauseVideo();
+                    break;
+                case "stopVideo":
+                    player.stopVideo();
+                    break;
+                case "volumeOff":
+                    player.mute();
+                    break;
+                case "volumeOn":
+                    player.unMute()
+                    break;
+            }
+        })
 
         function pause() {
             player.pauseVideo();
