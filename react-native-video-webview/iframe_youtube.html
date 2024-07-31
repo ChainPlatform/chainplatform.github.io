@@ -96,28 +96,28 @@
             if (typeof events.data != "object") {
                 infos = JSON.parse(events.data);
             }
-            if (events.source === iframeWindow) {
-                if (infos.event === "infoDelivery" && infos.info && infos.info.currentTime) {
-                    var time = Math.floor(infos.info.currentTime);
-                    if (time !== lastTimeUpdate) {
-                        lastTimeUpdate = time;
-                        if (typeof window.parent != "undefined" && typeof window.parent.postMessage != "undefined") {
-                            window.parent.postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
-                        } else {
-                            window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
-                        }
-                        // (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
-                    }
-                }
-                if (infos.event === "initialDelivery" && infos.info) {
+            // if (events.source === iframeWindow) {
+            if (infos.event === "infoDelivery" && infos.info && infos.info.currentTime) {
+                var time = Math.floor(infos.info.currentTime);
+                if (time !== lastTimeUpdate) {
+                    lastTimeUpdate = time;
                     if (typeof window.parent != "undefined" && typeof window.parent.postMessage != "undefined") {
-                        window.parent.postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
+                        window.parent.postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
                     } else {
-                        window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
+                        window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
                     }
-                    // (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
+                    // (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
                 }
             }
+            if (infos.event === "initialDelivery" && infos.info) {
+                if (typeof window.parent != "undefined" && typeof window.parent.postMessage != "undefined") {
+                    window.parent.postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
+                } else {
+                    window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
+                }
+                // (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
+            }
+            // }
             switch (infos.event) {
                 case "playVideo":
                     player.playVideo();
