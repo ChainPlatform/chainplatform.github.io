@@ -47,12 +47,12 @@
                 },
             });
 
-            setInterval(() => {
-                const data = {
-                    currentDuration: getCurrentTime()
-                }
-                    (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(data));
-            }, 1000)
+            // setInterval(() => {
+            //     const data = {
+            //         currentDuration: getCurrentTime()
+            //     }
+            //         (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(data));
+            // }, 1000)
 
         }
 
