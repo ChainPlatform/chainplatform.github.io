@@ -33,7 +33,7 @@
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         var player;
-        var iframeWindow;
+        // var iframeWindow;
         var lastTimeUpdate = 0;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
@@ -57,6 +57,7 @@
                     onPlaybackQualityChange: onPlaybackQualityChange
                 }
             });
+            // iframeWindow = player.getIframe().contentWindow;
         }
 
         function onPlayerError(e) {
