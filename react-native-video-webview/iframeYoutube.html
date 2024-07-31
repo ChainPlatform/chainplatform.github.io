@@ -81,9 +81,11 @@
             sendMessageToParent({ eventType: "playerStateChange", data: e.data })
         }
         function sendMessageToParent(event) {
+            console.log("sendMessageToParent ", event);
             (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event));
         }
         window.addEventListener("message", function (events) {
+            console.log("window.addEventListener ", events);
             let infos = events.data;
             if (typeof events.data != "object") {
                 infos = JSON.parse(events.data);
