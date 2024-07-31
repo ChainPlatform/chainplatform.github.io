@@ -85,7 +85,7 @@
         }
         function sendMessageToParent(event) {
             console.log("sendMessageToParent ", event);
-            (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event));
+            (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
         }
         window.addEventListener("message", function (events) {
             console.log("window.addEventListener ", events);
@@ -103,7 +103,7 @@
                     // } else {
                     //     window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
                     // }
-                    (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }));
+                    (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: { currentTime: time } }), '*');
                 }
             }
             if (infos.event === "initialDelivery" && infos.info) {
@@ -112,7 +112,7 @@
                 // } else {
                 //     window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
                 // }
-                (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }));
+                (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify({ eventType: infos.event, data: infos.info }), '*');
             }
             // }
             switch (infos.event) {
