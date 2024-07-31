@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        html {
+            overflow-y: hidden;
+            overflow-x: hidden;
+            height: 100%;
+        }
+
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ytp-title-channel,
+        .ytp-title,
+        .ytp-overflow-button-visible,
+        .ytp-large-play-button,
+        .ytp-button,
+        .ytp-large-play-button-red-bg,
+        .ytp-watermark,
+        .yt-uix-sessionlink,
+        .ytp-watermark-small {
+            opacity: 0 !important;
+        }
+    </style>
+    <meta name="viewport" content="initial-scale=1">
+    <title>Navigation Delegate Example</title>
+</head>
+
+<body>
+    <div id="player"></div>
+    <script>
+        const parsedUrl = new URL(window.location.href)
+            , videoId = parsedUrl.searchParams.get("videoId")
+            , width = parsedUrl.searchParams.get("width");
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: `${width}`,
+                videoId: `${videoId}`,
+                playerVars: {
+                    'playsinline': 1,
+                    'modestbranding': 1,
+                    'controls': 0,
+                    'rel': 0,
+                    'loop': 0,
+                },
+                events: {
+                    onReady: onPlayerReady,
+                    onError: onPlayerError,
+                    onStateChange: onPlayerStateChange,
+                    onPlaybackRateChange: onPlaybackRateChange,
+                    onPlaybackQualityChange: onPlaybackQualityChange
+                }
+            });
+
+            // setInterval(() => {
+            //   const data = {
+            //     currentDuration: getCurrentTime()
+            //   }
+            //     console.log("setInterval data ", JSON.stringify(data));
+            //     (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(data));
+            // //   window.ReactNativeWebView.postMessage(JSON.stringify(data));
+            // }, 1000)
+
+        }
+
+        function onPlayerError(e) {
+            sendMessageToParent({
+                eventType: "playerError",
+                data: e.data
+            })
+        }
+        function onPlaybackRateChange(e) {
+            sendMessageToParent({
+                eventType: "playbackRateChange",
+                data: e.data
+            })
+        }
+        function onPlaybackQualityChange(e) {
+            sendMessageToParent({
+                eventType: "playerQualityChange",
+                data: e.data
+            })
+        }
+        function onPlayerReady(e) {
+            sendMessageToParent({
+                eventType: "playerReady"
+            })
+        }
+        function onPlayerStateChange(e) {
+            sendMessageToParent({
+                eventType: "playerStateChange",
+                data: e.data
+            })
+        }
+
+        // function pause() {
+        //     player.pauseVideo();
+        // }
+
+        // function play() {
+        //     player.playVideo();
+        // }
+
+        // function seekTo(time) {
+        //     player.seekTo(time, true);
+        // }
+
+        // function getDuration() {
+        //     return player.getDuration()
+        // }
+
+        // function getCurrentTime() {
+        //     return player.getCurrentTime()
+        // }
+        function sendMessageToParent(event) {
+            console.log("sendMessageToParent event ", event);
+            try {
+                (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event));
+                console.log("window.postMessage ", event);
+            } catch (error) {
+                console.log("sendMessageToParent error ", error);
+            }
+        }
+        window.addEventListener("message", function (event) {
+            console.log("window.addEventListener message event ", event);
+            var { data: event } = event;
+            switch (event) {
+                case "playVideo":
+                    player.playVideo();
+                    break;
+                case "pauseVideo":
+                    player.pauseVideo();
+                    break;
+                case "muteVideo":
+                    player.mute();
+                    break;
+                case "unMuteVideo":
+                    player.unMute()
+            }
+        })
+    </script>
+</body>
+
+</html>
