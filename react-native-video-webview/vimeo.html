@@ -128,13 +128,13 @@
                 updateTime = setInterval(() => {
                     player.getCurrentTime().then(function (seconds) {
                         // console.log("seconds ", seconds);
-                        var time = Math.floor(seconds);
+                        var time = Math.round(seconds);
                         if (time !== lastTimeUpdate) {
                             lastTimeUpdate = time;
                             sendMessageToParent({ eventType: "infoDelivery", data: { currentTime: time } });
                         }
                     }).catch(function (error) { });
-                }, 500);
+                }, 1000);
             });
 
             player.on('ended', function () {
