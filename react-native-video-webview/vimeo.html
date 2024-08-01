@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <title>Vimeo Player Webview</title>
@@ -12,6 +13,7 @@
             overflow-x: hidden;
             height: 100%;
         }
+
         body {
             background-color: transparent;
             margin: 0;
@@ -19,6 +21,7 @@
             width: 100%;
             height: 100%;
         }
+
         .embed-container {
             position: relative;
             aspect-ratio: 16 / 9;
@@ -27,6 +30,7 @@
             width: 100%;
             height: 100%;
         }
+
         .embed-container iframe,
         .embed-container object,
         .embed-container embed {
@@ -38,8 +42,11 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="embed-container"><div id="player"></div></div>
+    <div class="embed-container">
+        <div id="player"></div>
+    </div>
     <script>
         const parsedUrl = new URL(window.location.href), videoId = parsedUrl.searchParams.get("videoId");
         let tag = document.createElement('script');
@@ -73,7 +80,7 @@
                     sendMessageToParent({ eventType: "initialDelivery", data: { duration: duration, currentTime: 0 } });
                     // const event = { eventType: "initialDelivery", data: { duration: duration, currentTime: 0 } };
                     // (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
-                }).catch(function (error) {});
+                }).catch(function (error) { });
                 sendMessageToParent({ eventType: "playerReady", data: null });
                 player.on('playbackratechange', function (data) {
                     // console.log("playbackratechange ", data);
@@ -90,11 +97,11 @@
                 player.on('timeupdate', function (infos) {
                     // console.log("timeupdate ", data);
                     // if (typeof infos.seconds != "undefined") {
-                        // var time = Math.floor(infos.seconds);
-                        // if (time !== lastTimeUpdate) {
-                        //     lastTimeUpdate = time;
-                        //     sendMessageToParent({ eventType: "infoDelivery", data: { duration: infos.duration, currentTime: time } });
-                        // }
+                    // var time = Math.floor(infos.seconds);
+                    // if (time !== lastTimeUpdate) {
+                    //     lastTimeUpdate = time;
+                    //     sendMessageToParent({ eventType: "infoDelivery", data: { duration: infos.duration, currentTime: time } });
+                    // }
                     // }
                 });
                 player.on('progress', function (infos) {
@@ -110,13 +117,13 @@
                 updateTime = setInterval(() => {
                     player.getCurrentTime().then(function (seconds) {
                         // console.log("seconds ", seconds);
-                        var time = Math.round(seconds);
+                        var time = Math.floor(seconds);
                         if (time !== lastTimeUpdate) {
                             lastTimeUpdate = time;
                             sendMessageToParent({ eventType: "infoDelivery", data: { currentTime: time } });
                         }
                     }).catch(function (error) { });
-                }, 800);
+                }, 250);
             });
             player.on('ended', function () {
                 // console.log("ended ");
@@ -183,7 +190,7 @@
                     });
                     break;
                 case "volumeOff":
-                    player.setMuted(true).then(function (muted) {}).catch(function (error) { });
+                    player.setMuted(true).then(function (muted) { }).catch(function (error) { });
                     break;
                 case "volumeOn":
                     player.setMuted(false).then(function (muted) { }).catch(function (error) { });
