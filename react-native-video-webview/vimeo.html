@@ -92,11 +92,11 @@
 
                 player.on('playbackratechange', function (data) {
                     // console.log("playbackratechange ", data);
-                    sendMessageToParent({ eventType: "playbackRateChange", data: data })
+                    // sendMessageToParent({ eventType: "playbackRateChange", data: data })
                 });
                 player.on('qualitychange', function (data) {
                     // console.log("qualitychange ", data);
-                    sendMessageToParent({ eventType: "playerQualityChange", data: data })
+                    // sendMessageToParent({ eventType: "playerQualityChange", data: data })
                 });
                 player.on('error', function (data) {
                     // console.log("error ", data);
@@ -105,17 +105,17 @@
                 player.on('timeupdate', function (infos) {
                     // console.log("timeupdate ", data);
                     if (typeof infos.seconds != "undefined") {
-                        var time = Math.floor(infos.seconds);
-                        if (time !== lastTimeUpdate) {
-                            lastTimeUpdate = time;
-                            sendMessageToParent({ eventType: "infoDelivery", data: { duration: infos.duration, currentTime: time } });
-                        }
+                        // var time = Math.floor(infos.seconds);
+                        // if (time !== lastTimeUpdate) {
+                        //     lastTimeUpdate = time;
+                        //     sendMessageToParent({ eventType: "infoDelivery", data: { duration: infos.duration, currentTime: time } });
+                        // }
                     }
                 });
                 player.on('progress', function (infos) {
                     // console.log("progress ", data);
                     if (typeof infos.seconds != "undefined") {
-                        sendMessageToParent({ eventType: "initialDelivery", data: { duration: infos.duration, currentTime: infos.seconds } });
+                        // sendMessageToParent({ eventType: "initialDelivery", data: { duration: infos.duration, currentTime: infos.seconds } });
                     }
                 });
 
@@ -127,13 +127,14 @@
                 // console.log("play ", data);
                 updateTime = setInterval(() => {
                     player.getCurrentTime().then(function (seconds) {
+                        console.log("seconds ", seconds);
                         var time = Math.floor(seconds);
                         if (time !== lastTimeUpdate) {
                             lastTimeUpdate = time;
                             sendMessageToParent({ eventType: "infoDelivery", data: { currentTime: time } });
                         }
                     }).catch(function (error) { });
-                }, 500);
+                }, 1000);
             });
 
             player.on('ended', function () {
