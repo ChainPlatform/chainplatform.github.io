@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <title>Vimeo Player Webview</title>
@@ -13,7 +12,6 @@
             overflow-x: hidden;
             height: 100%;
         }
-
         body {
             background-color: transparent;
             margin: 0;
@@ -21,7 +19,6 @@
             width: 100%;
             height: 100%;
         }
-
         .embed-container {
             position: relative;
             aspect-ratio: 16 / 9;
@@ -30,7 +27,6 @@
             width: 100%;
             height: 100%;
         }
-
         .embed-container iframe,
         .embed-container object,
         .embed-container embed {
@@ -42,16 +38,12 @@
         }
     </style>
 </head>
-
 <body>
-    <div class="embed-container">
-        <div id="player"></div>
-    </div>
+    <div class="embed-container"><div id="player"></div></div>
     <script>
         const parsedUrl = new URL(window.location.href), videoId = parsedUrl.searchParams.get("videoId");
         let tag = document.createElement('script');
         tag.src = "https://player.vimeo.com/api/player.js";
-
         let lastTimeUpdate = 0;
         let player;
         const options = {
@@ -70,26 +62,19 @@
             vimeo_logo: false,
             dnt: true
         };
-
         tag.onload = () => {
             // const iframe = document.querySelector('iframe');
             player = new Vimeo.Player('player', options);
-
             player.ready().then(function () {
                 // console.log("playerReady ");
-
                 player.getDuration().then(function (duration) {
                     // duration = the duration of the video in seconds
                     // console.log('video length is:', duration);
                     sendMessageToParent({ eventType: "initialDelivery", data: { duration: duration, currentTime: 0 } });
                     // const event = { eventType: "initialDelivery", data: { duration: duration, currentTime: 0 } };
                     // (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
-                }).catch(function (error) {
-                    // an error occurred
-                });
-
+                }).catch(function (error) {});
                 sendMessageToParent({ eventType: "playerReady", data: null });
-
                 player.on('playbackratechange', function (data) {
                     // console.log("playbackratechange ", data);
                     // sendMessageToParent({ eventType: "playbackRateChange", data: data })
@@ -104,24 +89,21 @@
                 });
                 player.on('timeupdate', function (infos) {
                     // console.log("timeupdate ", data);
-                    if (typeof infos.seconds != "undefined") {
+                    // if (typeof infos.seconds != "undefined") {
                         // var time = Math.floor(infos.seconds);
                         // if (time !== lastTimeUpdate) {
                         //     lastTimeUpdate = time;
                         //     sendMessageToParent({ eventType: "infoDelivery", data: { duration: infos.duration, currentTime: time } });
                         // }
-                    }
+                    // }
                 });
                 player.on('progress', function (infos) {
                     // console.log("progress ", data);
-                    if (typeof infos.seconds != "undefined") {
-                        // sendMessageToParent({ eventType: "initialDelivery", data: { duration: infos.duration, currentTime: infos.seconds } });
-                    }
+                    // if (typeof infos.seconds != "undefined") {
+                    //     sendMessageToParent({ eventType: "initialDelivery", data: { duration: infos.duration, currentTime: infos.seconds } });
+                    // }
                 });
-
-
             });
-
             let updateTime;
             player.on('play', function (data) {
                 // console.log("play ", data);
@@ -134,22 +116,17 @@
                             sendMessageToParent({ eventType: "infoDelivery", data: { currentTime: time } });
                         }
                     }).catch(function (error) { });
-                }, 1000);
+                }, 800);
             });
-
             player.on('ended', function () {
                 // console.log("ended ");
-                if (updateTime) {
-                    clearInterval(updateTime);
-                }
+                if (updateTime) { clearInterval(updateTime); }
                 sendMessageToParent({ eventType: "playerStateChange", data: 0 })
             });
-
         };
         tag.onerror = () => { };
         let firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
         function sendMessageToParent(event) {
             // console.log('sendMessageToParent ', event);
             (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
@@ -161,9 +138,7 @@
             }
             switch (infos.event) {
                 case "playVideo":
-                    player.play().then(function () {
-                        // The video is playing
-                    }).catch(function (error) {
+                    player.play().then(function () { }).catch(function (error) {
                         switch (error.name) {
                             case 'PasswordError':
                                 // The video is password-protected
@@ -178,9 +153,7 @@
                     });
                     break;
                 case "pauseVideo":
-                    player.pause().then(function () {
-                        // The video is paused
-                    }).catch(function (error) {
+                    player.pause().then(function () { }).catch(function (error) {
                         switch (error.name) {
                             case 'PasswordError':
                                 // The video is password-protected
@@ -195,9 +168,7 @@
                     });
                     break;
                 case "stopVideo":
-                    player.pause().then(function () {
-                        // The video is paused
-                    }).catch(function (error) {
+                    player.pause().then(function () { }).catch(function (error) {
                         switch (error.name) {
                             case 'PasswordError':
                                 // The video is password-protected
@@ -212,44 +183,10 @@
                     });
                     break;
                 case "volumeOff":
-                    // player.setVolume(0).then(function (volume) {
-                    //     // volume was set
-                    // }).catch(function (error) {
-                    //     switch (error.name) {
-                    //         case 'RangeError':
-                    //             // the volume was less than 0 or greater than 1
-                    //             break;
-
-                    //         default:
-                    //             // some other error occurred
-                    //             break;
-                    //     }
-                    // });
-                    player.setMuted(true).then(function (muted) {
-                        // muted was turned on
-                    }).catch(function (error) {
-                        // an error occurred
-                    });
+                    player.setMuted(true).then(function (muted) {}).catch(function (error) { });
                     break;
                 case "volumeOn":
-                    // player.setVolume(1).then(function (volume) {
-                    //     // volume was set
-                    // }).catch(function (error) {
-                    //     switch (error.name) {
-                    //         case 'RangeError':
-                    //             // the volume was less than 0 or greater than 1
-                    //             break;
-
-                    //         default:
-                    //             // some other error occurred
-                    //             break;
-                    //     }
-                    // });
-                    player.setMuted(false).then(function (muted) {
-                        // muted was turned on
-                    }).catch(function (error) {
-                        // an error occurred
-                    });
+                    player.setMuted(false).then(function (muted) { }).catch(function (error) { });
                     break;
             }
         })
