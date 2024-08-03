@@ -77,7 +77,7 @@
                 click: false,
                 doubleClick: false
             },
-            preload: 'metadata',
+            preload: 'auto',
             hotkeys: false,
             autoplay: false,
             controls: false,
@@ -94,9 +94,7 @@
         // type: 'videoType'
         tag.onload = () => {
             player = videojs('player', options, function onPlayerReady() {
-                // var duration = player.duration();
                 sendMessageToParent({ eventType: "playerReady", data: null });
-                // sendMessageToParent({ eventType: "initialDelivery", data: { duration: duration, currentTime: 0 } });
             });
             player.one("loadedmetadata", () => {
                 var duration = player.duration();
