@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -156,7 +157,8 @@
             return_url = parsedUrl.searchParams.get("return_url"),
             public_key = parsedUrl.searchParams.get("public_key"),
             client_secret = parsedUrl.searchParams.get("client_secret"),
-            theme = parsedUrl.searchParams.get("theme");
+            theme = parsedUrl.searchParams.get("theme"),
+            style = parsedUrl.searchParams.get("style");
         let clientSecret; let strip; let elements;
 
         let tag = document.createElement('script');
@@ -189,8 +191,9 @@
         }
 
         tag.onload = () => {
+            document.documentElement.style.colorScheme = `${theme}`;
             const appearance = {
-                theme: `${theme}`
+                theme: `${style}`
             };
             stripe = Stripe(`${public_key}`);
             clientSecret = `${client_secret}`;
