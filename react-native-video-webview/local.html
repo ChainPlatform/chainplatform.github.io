@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Media player</title>
@@ -12,11 +13,13 @@
             display: none;
             width: 100%;
         }
+
         video {
             height: auto;
         }
     </style>
 </head>
+
 <body>
     <video id="videoplayer" style="display: none;" controls></video>
     <audio id="audioplayer" style="display: none;" controls></audio>
@@ -28,8 +31,9 @@
         if (videoType == "video") {
             mediaplayer = document.getElementById('videoplayer');
         }
-        mediaplayer.src = videoId;
+        mediaplayer.src = `${videoId}`;
         mediaplayer.style.display = "block";
     </script>
 </body>
+
 </html>
