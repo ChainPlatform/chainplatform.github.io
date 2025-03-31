@@ -10,4 +10,3 @@ __c.oZ=({color:a,Bv:b,x1:c,y1:d,x2:e,y2:f})=>jZ(FBb,{stroke:a,strokeLinecap:"rou
 }).call(self, self._7ccc7343da2ae983607b3819c7bc1f93);}
 
 }])
-//# sourceMappingURL=sourcemaps/441de4b77e4dbb55.js.map

@@ -26,4 +26,3 @@ k;this.allowUrls="/dist/renderer/ canva.com canva.cn canva-dev.com canva-staging
 }).call(self, self._7ccc7343da2ae983607b3819c7bc1f93);}
 
 }])
-//# sourceMappingURL=sourcemaps/ad2d1c5a4c99f558.js.map

@@ -8,4 +8,3 @@ Date.now()-c)&&5>Math.abs(b.changedTouches[0].pageX-this.Pl)+Math.abs(b.changedT
 }).call(self, self._7ccc7343da2ae983607b3819c7bc1f93);}
 
 }])
-//# sourceMappingURL=sourcemaps/73088e0c84ae7cda.js.map

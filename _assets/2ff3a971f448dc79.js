@@ -17,4 +17,3 @@ this.setState({status:0}),this.ua.track(rec,{sessionId:k.id,source:"fullscreen_m
 }).call(self, self._7ccc7343da2ae983607b3819c7bc1f93);}
 
 }])
-//# sourceMappingURL=sourcemaps/2ff3a971f448dc79.js.map

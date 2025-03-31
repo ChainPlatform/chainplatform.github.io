@@ -7,4 +7,3 @@ className:"aSY8AA"}),l1("path",{d:"M15 9L10.3972 4.67335C9.04995 3.40695 6.95006
 }).call(self, self._7ccc7343da2ae983607b3819c7bc1f93);}
 
 }])
-//# sourceMappingURL=sourcemaps/2f0b128ae73aace8.js.map
