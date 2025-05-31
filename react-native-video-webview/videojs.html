@@ -77,7 +77,7 @@
                 click: false,
                 doubleClick: false
             },
-            preload: 'auto',
+            preload: 'metadata',
             hotkeys: false,
             autoplay: false,
             controls: false,
@@ -136,6 +136,9 @@
                         break;
                     case "volumeOn":
                         player.volume(1);
+                        break;
+                    case "seekVideo":
+                        player.currentTime(infos.data.seekTo);
                         break;
                 }
             })

@@ -57,7 +57,6 @@
                 }
             });
         }
-
         function onPlayerError(e) {
             sendMessageToParent({ eventType: "playerError", data: e.data })
         }
@@ -106,6 +105,9 @@
                     break;
                 case "volumeOn":
                     player.unMute()
+                    break;
+                case "seekVideo":
+                    player.seekTo(infos.data.seekTo, true);
                     break;
             }
         })

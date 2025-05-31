@@ -171,6 +171,9 @@
                 case "volumeOn":
                     player.setMuted(false).then(function (muted) { }).catch(function (error) { });
                     break;
+                case "seekVideo":
+                    player.setCurrentTime(infos.data.seekTo).then(function () { }).catch(function (error) { });
+                    break;
             }
         })
     </script>
