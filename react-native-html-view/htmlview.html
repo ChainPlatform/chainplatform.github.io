@@ -57,12 +57,8 @@
         MathJax = {
             loader: {
                 load: [
-                    "input/asciimath",
-                    'output/chtml'
+                    "input/asciimath"
                 ]
-            },
-            output: {
-                font: 'mathjax-modern'
             }
         }
     </script>
@@ -84,8 +80,8 @@
         let mathVal = mathjax == 1 ? true : false;
         if (mathVal == true) {
             let tag = document.createElement('script');
-            tag.defer = true;
             tag.src = 'https://cdn.jsdelivr.net/npm/mathjax@4/startup.js';
+            tag.defer = true;
             tag.onload = () => {
                 const parsedUrl = new URL(window.location.href), htmltag = parsedUrl.searchParams.get("htmltag"), fontMathJax = parsedUrl.searchParams.get("fontMathJax"), fontsize = parsedUrl.searchParams.get("fontsize");
                 const elementsWithClass = document.querySelectorAll('.MathJax');
