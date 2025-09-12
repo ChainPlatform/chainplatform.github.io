@@ -54,7 +54,9 @@
 <body>
     <div class="htmlview-container"></div>
     <script>
-        MathJax = { loader: { load: ["input/asciimath", "output/chtml"] } }
+        MathJax = {
+            loader: { load: ["input/asciimath"] }
+        }
     </script>
     <script>
         function sendMessageToParent(event) {
@@ -74,7 +76,7 @@
         let mathVal = mathjax == 1 ? true : false;
         if (mathVal == true) {
             let tag = document.createElement('script');
-            tag.src = 'https://cdn.jsdelivr.net/npm/mathjax@4/startup.js';
+            tag.src = 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js';
             tag.defer = true;
             tag.onload = () => {
                 const parsedUrl = new URL(window.location.href), htmltag = parsedUrl.searchParams.get("htmltag"), fontMathJax = parsedUrl.searchParams.get("fontMathJax"), fontsize = parsedUrl.searchParams.get("fontsize");
