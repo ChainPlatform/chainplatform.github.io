@@ -54,6 +54,9 @@
 <body>
     <div class="htmlview-container"></div>
     <script>
+        function sendMessageToParent(event) {
+            (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
+        }
         const parsedUrl = new URL(window.location.href), mathjax = parsedUrl.searchParams.get("mathjax"), content = parsedUrl.searchParams.get("content"), fontMathJax = parsedUrl.searchParams.get("fontMathJax"), fontsize = parsedUrl.searchParams.get("fontsize"), htmltag = parsedUrl.searchParams.get("htmltag");
         // document.querySelector('body').style.fontSize = fontsize + 'px !important';
         // document.body.style.height = document.documentElement.scrollHeight + 'px';
@@ -64,9 +67,6 @@
         let MathJaxStyles = document.getElementsByClassName('MathJax');
         for (let ii = 0; ii < MathJaxStyles.length; ii++) {
             MathJaxStyles[ii].style.fontSize = fontMathJax + 'px !important';
-        }
-        function sendMessageToParent(event) {
-            (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
         }
         // sendMessageToParent({ eventType: "onload", data: { scrollHeight: document.documentElement.scrollHeight, htmltag: "" + htmltag + "" } });
         // console.log("document.documentElement.scrollHeight ", document.documentElement.scrollHeight);
