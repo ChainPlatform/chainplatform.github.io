@@ -74,12 +74,13 @@
             tag.src = 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js';
             tag.defer = true;
             tag.onload = () => {
-                const parsedUrl = new URL(window.location.href), htmltag = parsedUrl.searchParams.get("htmltag"), fontMathJax = parsedUrl.searchParams.get("fontMathJax");
+                const parsedUrl = new URL(window.location.href), htmltag = parsedUrl.searchParams.get("htmltag"), fontMathJax = parsedUrl.searchParams.get("fontMathJax"), fontsize = parsedUrl.searchParams.get("fontsize");
                 const elementsWithClass = document.querySelectorAll('.MathJax');
                 elementsWithClass.forEach(element => {
                     element.setAttribute('style', 'font-size: ' + fontMathJax + 'px !important;');
                 });
                 document.body.style.height = '' + document.documentElement.scrollHeight + 'px';
+                document.body.style.fontSize = '' + fontsize + 'px';
                 sendMessageToParent({ eventType: "onload", data: { scrollHeight: document.documentElement.scrollHeight, htmltag: "" + htmltag + "" } });
                 window.addEventListener("message", function (events) {
                     let infos = events.data;
