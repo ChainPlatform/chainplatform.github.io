@@ -58,18 +58,14 @@
             (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
         }
         const parsedUrl = new URL(window.location.href), mathjax = parsedUrl.searchParams.get("mathjax"), content = parsedUrl.searchParams.get("content"), fontMathJax = parsedUrl.searchParams.get("fontMathJax"), fontsize = parsedUrl.searchParams.get("fontsize"), htmltag = parsedUrl.searchParams.get("htmltag");
-        // document.querySelector('body').style.fontSize = fontsize + 'px !important';
-        // document.body.style.height = document.documentElement.scrollHeight + 'px';
         let htmlview = document.getElementsByClassName('htmlview-container');
         for (let i = 0; i < htmlview.length; i++) {
             htmlview[i].innerHTML = content;
         }
         let MathJaxStyles = document.getElementsByClassName('MathJax');
         for (let ii = 0; ii < MathJaxStyles.length; ii++) {
-            MathJaxStyles[ii].style.fontSize = fontMathJax + 'px !important';
+            MathJaxStyles[ii].style.fontSize = '"' + fontMathJax + 'px !important"';
         }
-        // sendMessageToParent({ eventType: "onload", data: { scrollHeight: document.documentElement.scrollHeight, htmltag: "" + htmltag + "" } });
-        // console.log("document.documentElement.scrollHeight ", document.documentElement.scrollHeight);
     </script>
     <script>
         let mathVal = mathjax == 1 ? true : false;
@@ -79,14 +75,11 @@
             tag.defer = true;
             tag.onload = () => {
                 const parsedUrl = new URL(window.location.href), htmltag = parsedUrl.searchParams.get("htmltag"), fontMathJax = parsedUrl.searchParams.get("fontMathJax");
-
                 let MathJaxStyles = document.getElementsByClassName('MathJax');
                 for (let ii = 0; ii < MathJaxStyles.length; ii++) {
-                    MathJaxStyles[ii].style.fontSize = fontMathJax + 'px !important';
+                    MathJaxStyles[ii].style.fontSize = '"' + fontMathJax + 'px !important"';
                 }
-                document.body.style.height = document.documentElement.scrollHeight + 'px';
-
-                console.log("document.documentElement.scrollHeight ", document.documentElement.scrollHeight);
+                document.body.style.height = '"' + document.documentElement.scrollHeight + 'px"';
                 sendMessageToParent({ eventType: "onload", data: { scrollHeight: document.documentElement.scrollHeight, htmltag: "" + htmltag + "" } });
                 window.addEventListener("message", function (events) {
                     let infos = events.data;
