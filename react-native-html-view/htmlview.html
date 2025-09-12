@@ -54,6 +54,17 @@
 <body>
     <div class="htmlview-container"></div>
     <script>
+        MathJax = {
+            loader: {
+                load: [
+                    "input/asciimath",
+                    'output/chtml'
+                ]
+            },
+            output: {
+                font: 'mathjax-modern'
+            }
+        }
     </script>
     <script>
         function sendMessageToParent(event) {
@@ -73,7 +84,7 @@
         let mathVal = mathjax == 1 ? true : false;
         if (mathVal == true) {
             let tag = document.createElement('script');
-            tag.src = 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js';
+            tag.src = 'https://cdn.jsdelivr.net/npm/mathjax@4/startup.js';
             tag.defer = true;
             tag.onload = () => {
                 const parsedUrl = new URL(window.location.href), htmltag = parsedUrl.searchParams.get("htmltag"), fontMathJax = parsedUrl.searchParams.get("fontMathJax"), fontsize = parsedUrl.searchParams.get("fontsize");
@@ -82,14 +93,9 @@
                     element.setAttribute('style', 'font-size: ' + fontMathJax + 'px !important;');
                 });
                 document.body.style.fontSize = fontsize + 'px';
-                document.body.style.height = '' + document.documentElement.scrollHeight + 'px';
-                sendMessageToParent({ eventType: "onload", data: { scrollHeight: document.documentElement.scrollHeight, htmltag: "" + htmltag + "" } });
-                window.addEventListener("message", function (events) {
-                    let infos = events.data;
-                    if (typeof events.data != "object") {
-                        infos = JSON.parse(events.data);
-                    }
-                })
+                window.onload = (event) => {
+                    sendMessageToParent({ eventType: "onload", data: { scrollHeight: document.documentElement.scrollHeight, htmltag: "" + htmltag + "" } });
+                };
             };
             tag.onerror = () => { };
             let firstScriptTag = document.getElementsByTagName('script')[1];
