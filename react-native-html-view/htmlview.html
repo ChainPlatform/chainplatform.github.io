@@ -86,7 +86,7 @@
         if (mathVal == true) {
             let tag = document.createElement('script');
             tag.src = 'https://cdn.jsdelivr.net/npm/mathjax@4/startup.js';
-            tag.defer = true;
+            tag.defer = true; 
             tag.onload = () => {
                 window.onload = (event) => {
                     const parsedUrl = new URL(window.location.href), htmltag = parsedUrl.searchParams.get("htmltag"), fontMathJax = parsedUrl.searchParams.get("fontMathJax"), fontsize = parsedUrl.searchParams.get("fontsize");
