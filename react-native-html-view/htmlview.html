@@ -62,10 +62,10 @@
         for (let i = 0; i < htmlview.length; i++) {
             htmlview[i].innerHTML = content;
         }
-        let MathJaxStyles = document.getElementsByClassName('MathJax');
-        for (let ii = 0; ii < MathJaxStyles.length; ii++) {
-            MathJaxStyles[ii].style.fontSize = '"' + fontMathJax + 'px !important"';
-        }
+        const elementsWithClass = document.querySelectorAll('.MathJax');
+        elementsWithClass.forEach(element => {
+            element.setAttribute('style', 'font-size: ' + fontMathJax + 'px !important;');
+        });
     </script>
     <script>
         let mathVal = mathjax == 1 ? true : false;
@@ -75,11 +75,11 @@
             tag.defer = true;
             tag.onload = () => {
                 const parsedUrl = new URL(window.location.href), htmltag = parsedUrl.searchParams.get("htmltag"), fontMathJax = parsedUrl.searchParams.get("fontMathJax");
-                let MathJaxStyles = document.getElementsByClassName('MathJax');
-                for (let ii = 0; ii < MathJaxStyles.length; ii++) {
-                    MathJaxStyles[ii].style.fontSize = '"' + fontMathJax + 'px !important"';
-                }
-                document.body.style.height = '"' + document.documentElement.scrollHeight + 'px"';
+                const elementsWithClass = document.querySelectorAll('.MathJax');
+                elementsWithClass.forEach(element => {
+                    element.setAttribute('style', 'font-size: ' + fontMathJax + 'px !important;');
+                });
+                document.body.style.height = '' + document.documentElement.scrollHeight + 'px';
                 sendMessageToParent({ eventType: "onload", data: { scrollHeight: document.documentElement.scrollHeight, htmltag: "" + htmltag + "" } });
                 window.addEventListener("message", function (events) {
                     let infos = events.data;
