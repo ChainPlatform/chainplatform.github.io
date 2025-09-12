@@ -68,9 +68,7 @@
             (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(event), '*');
         }
         function base64ToUtf8(base64) {
-            return decodeURIComponent(atob(base64).split('').map(function (c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
+            return decodeURIComponent(base64);
         }
         const parsedUrl = new URL(window.location.href), mathjax = parsedUrl.searchParams.get("mathjax"), content = parsedUrl.searchParams.get("content"), fontMathJax = parsedUrl.searchParams.get("fontMathJax"), fontsize = parsedUrl.searchParams.get("fontsize"), htmltag = parsedUrl.searchParams.get("htmltag");
         let htmlview = document.getElementsByClassName('htmlview-container');
