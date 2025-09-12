@@ -79,8 +79,8 @@
                 elementsWithClass.forEach(element => {
                     element.setAttribute('style', 'font-size: ' + fontMathJax + 'px !important;');
                 });
-                document.body.style.height = '' + document.documentElement.scrollHeight + 'px';
                 document.body.style.fontSize = fontsize + 'px';
+                document.body.style.height = '' + document.documentElement.scrollHeight + 'px';
                 sendMessageToParent({ eventType: "onload", data: { scrollHeight: document.documentElement.scrollHeight, htmltag: "" + htmltag + "" } });
                 window.addEventListener("message", function (events) {
                     let infos = events.data;
