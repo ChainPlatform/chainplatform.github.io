@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Color Picker</title>
+    <meta name="author" content="santran686@gmail.com">
+    <meta name="author" content="chainplatform.net">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="color" id="color" rgba cmyk hsla alpha name="color" style='' value='' onchange="getColor(this)" />
+    <script>
+        const parsedUrl = new URL(window.location.href), color = parsedUrl.searchParams.get("color"), style = parsedUrl.searchParams.get("style");
+
+        let default_color = color;
+
+        function rgbToHex(r, g, b) {
+            const toHex = (c) => {
+                const hex = c.toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            };
+            return "#" + toHex(r) + toHex(g) + toHex(b);
+        }
+
+        function getColor(input) {
+            var color = input.value;
+            if (default_color != color) {
+                let result = { datas: { color: color, key_color: '${key_color}', key_theme: '${key_theme}' } };
+                (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(result), '*');
+            }
+
+            var color = input.value;
+            if (default_color != color) {
+                let result = { datas: {} };
+                (window.ReactNativeWebView || window.parent || window).postMessage(JSON.stringify(result), '*');
+            }
+        }
+
+        function parseRGBA(color) {
+            if (!color) return null;
+            const normalized = color
+                .replace(/,/g, ' ')
+                .replace(/\//, ' ')
+                .replace(/rgba?|\(|\)|%/g, '')
+                .trim();
+            const parts = normalized.split(/\s+/).map(Number);
+            const [r, g, b, a = 1] = parts;
+            return { r, g, b, a };
+        };
+
+        function hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        let alpha = 1;
+        const hexRegex = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+        if (!hexRegex.test(default_color)) {
+            let { r, g, b, a } = parseRGBA(default_color);
+            alpha = a;
+            default_color = rgbToHex(r, g, b);
+        }
+        document.getElementById("color").value = default_color;
+        document.getElementById("color").style = style;
+    </script>
+</body>
+
+</html>
